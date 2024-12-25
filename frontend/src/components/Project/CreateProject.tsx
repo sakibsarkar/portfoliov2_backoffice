@@ -16,24 +16,31 @@ import {
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { useUpdateProjectByIdMutation } from "@/redux/features/project/project.api";
+import { useCreateProjectMutation } from "@/redux/features/project/project.api";
 import { useUploadSingleImageMutation } from "@/redux/features/upload/upload.api";
 import { IProject } from "@/types/project";
 import { format } from "date-fns";
-import { CalendarIcon, Edit, UploadIcon } from "lucide-react";
+import { CalendarIcon, Plus, UploadIcon } from "lucide-react";
 import React, { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { toast } from "sonner";
 import { TechStackInput } from "./TechStackInput";
-interface IProps {
-  project: IProject;
-}
 
-const UpdateProject: React.FC<IProps> = ({ project }) => {
+const initValue: Omit<IProject, "_id"> = {
+  description: "",
+  end_date: "",
+  name: "",
+  start_date: "",
+  tech_stack: [],
+  thumbnail: "",
+  github_link: "",
+  live_link: "",
+};
+const CreateProject = () => {
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState<IProject>(project);
+  const [formData, setFormData] = useState<Omit<IProject, "_id">>(initValue);
 
-  const [updateProjectById, { isLoading }] = useUpdateProjectByIdMutation();
+  const [updateProjectById, { isLoading }] = useCreateProjectMutation();
   const [uploadSingle, { isLoading: isImageUploading }] =
     useUploadSingleImageMutation();
 
@@ -56,10 +63,7 @@ const UpdateProject: React.FC<IProps> = ({ project }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await updateProjectById({
-        projectId: project._id,
-        payload: formData,
-      });
+      const res = await updateProjectById(formData);
 
       const error = res.error as any;
 
@@ -101,22 +105,18 @@ const UpdateProject: React.FC<IProps> = ({ project }) => {
       toast.error("Something went wrong while uploading image");
     }
   };
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="p-[0] w-[30px] h-[30px] center rounded-full"
-        >
-          <Edit className="w-4 h-4" />
+        <Button variant="outline" className="center gap-[10px] w-fit">
+          Add new project <Plus className="mr-2 h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[90vh] max-h-[90vh] overflow-auto smoothBar">
         <DialogHeader>
           <DialogTitle>Update Project</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-[15px]">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-[25px]">
           <div className="flex flex-col gap-[10px]">
             <Label htmlFor="name">Name</Label>
             <Input
@@ -137,7 +137,7 @@ const UpdateProject: React.FC<IProps> = ({ project }) => {
               {formData.thumbnail ? (
                 <div
                   className="w-[150px] h-[150px] overflow-hidden rounded-[10px] group/image relative
-            "
+              "
                 >
                   <img
                     src={formData.thumbnail}
@@ -291,4 +291,4 @@ const UpdateProject: React.FC<IProps> = ({ project }) => {
   );
 };
 
-export default UpdateProject;
+export default CreateProject;

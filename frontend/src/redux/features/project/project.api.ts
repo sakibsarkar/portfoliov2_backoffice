@@ -1,5 +1,5 @@
 import { api } from "@/redux/api/api";
-import { IProject } from "@/type/project";
+import { IProject } from "@/types/project";
 
 const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,6 +9,14 @@ const userApi = api.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["project"],
+    }),
+    createProject: builder.mutation<{ data: IProject }, Omit<IProject, "_id">>({
+      query: (payload) => ({
+        url: `/project/create`,
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["project"],
     }),
     updateProjectById: builder.mutation<
       { data: IProject },
@@ -34,4 +42,5 @@ export const {
   useGetAlllProjectsQuery,
   useUpdateProjectByIdMutation,
   useDelteProjectByIdMutation,
+  useCreateProjectMutation,
 } = userApi;

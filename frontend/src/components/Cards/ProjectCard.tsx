@@ -1,4 +1,4 @@
-import { IProject } from "@/type/project";
+import { IProject } from "@/types/project";
 import { FaGithub } from "react-icons/fa";
 import { IoCodeSlash } from "react-icons/io5";
 import { Link } from "react-router-dom";

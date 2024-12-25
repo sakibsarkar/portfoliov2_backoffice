@@ -1,4 +1,4 @@
-import { IBlog } from "@/type/blog";
+import { IBlog } from "@/types/blog";
 import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 interface IProps {

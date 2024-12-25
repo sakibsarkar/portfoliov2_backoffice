@@ -14,6 +14,7 @@ import { useDelteProjectByIdMutation } from "@/redux/features/project/project.ap
 import { AlertCircle, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
+import { toast } from "sonner";
 
 interface IProps {
   projectName: string;
@@ -26,15 +27,31 @@ const DeleteProject: React.FC<IProps> = ({ projectName, projectId }) => {
 
   const [deleteProjectById, { isLoading }] = useDelteProjectByIdMutation();
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (confirmationText !== projectName) {
       setError("Project name doesn't match. Please try again.");
       return;
     }
 
-    setIsOpen(false);
-    setConfirmationText("");
-    setError("");
+    if (isLoading) return;
+    try {
+      const res = await deleteProjectById(projectId);
+      const error = res.error as any;
+      if (error) {
+        toast.error(
+          error.data.message || "Something went wrong while deleting project"
+        );
+        setIsOpen(false);
+        setConfirmationText("");
+        setError("");
+        return;
+      }
+
+      toast.success("Project deleted successfully");
+      setIsOpen(false);
+      setConfirmationText("");
+      setError("");
+    } catch (error) {}
   };
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import blogRoute from "./blog.route";
 import experienceRoute from "./experience.route";
+import imageRoute from "./image.route";
 import projectRoute from "./project.route";
 import skillRoute from "./skill.route";
 import authRoute from "./user.route";
@@ -25,6 +26,10 @@ const moduleRoutes = [
   {
     path: "/experience",
     route: experienceRoute,
+  },
+  {
+    path: "/upload",
+    route: imageRoute,
   },
 ];
 

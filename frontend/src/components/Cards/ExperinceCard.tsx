@@ -1,4 +1,4 @@
-import { IExperience } from "@/type/experience";
+import { IExperience } from "@/types/experience";
 import { GoBriefcase } from "react-icons/go";
 import { Badge } from "../ui/badge";
 import { Card, CardContent } from "../ui/card";
