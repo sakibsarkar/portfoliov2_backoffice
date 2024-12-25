@@ -124,8 +124,7 @@ const login = catchAsyncError(async (req, res) => {
     role: user.role,
   });
 
-  // const refreshToken = generateRefreshToken(user.id.toString());
-  // console.log("refresh token", refreshToken);
+  const refreshToken = generateRefreshToken({ _id: user._id.toString() });
 
   res
     .cookie("accessToken", accessToken, {

@@ -91,12 +91,14 @@ const CreateProject = () => {
     if (!file) return;
     if (isImageUploading) return;
 
+    const toastId = toast.loading("Image uploading...");
     try {
       const form = new FormData();
       form.append("image", file);
       const res = await uploadSingle(form);
       const error = res.error as any;
       if (error) {
+        toast.dismiss(toastId);
         toast.error(
           error.data.message || "Something went wrong while uploading image"
         );
@@ -106,7 +108,9 @@ const CreateProject = () => {
       const data = res.data;
       const image = data?.data || "";
       setFormData((prev) => ({ ...prev, thumbnail: image }));
+      toast.dismiss(toastId);
     } catch (error) {
+      toast.dismiss(toastId);
       toast.error("Something went wrong while uploading image");
     }
   };

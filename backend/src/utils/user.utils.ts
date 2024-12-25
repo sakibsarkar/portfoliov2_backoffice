@@ -19,10 +19,14 @@ const generateAccessToken = (
   return accessToken;
 };
 const generateRefreshToken = (payload: Pick<IUser, "_id">) => {
-  const refreshToken = jwt.sign(payload, config.ACCESS_TOKEN.SECRET as string, {
-    // expiresIn: "30d",
-    expiresIn: config.ACCESS_TOKEN.EXPIRES_IN,
-  });
+  const refreshToken = jwt.sign(
+    payload,
+    config.REFRESH_TOKEN.SECRET as string,
+    {
+      // expiresIn: "30d",
+      expiresIn: config.REFRESH_TOKEN.EXPIRES_IN,
+    }
+  );
   return refreshToken;
 };
 

@@ -24,9 +24,12 @@ const isAuthenticateUser = catchAsyncError(async (req, res, next) => {
       throw new AppError(404, "Refresh token is missing");
     }
 
+    console.log("refresh token", refreshToken);
+    console.log("secret", config.REFRESH_TOKEN.SECRET);
+
     const decryptedJwt = jwt.verify(
       refreshToken,
-      process.env.REFRESH_TOKEN_SECRET as string
+      config.REFRESH_TOKEN.SECRET as string
     ) as { _id: string };
 
     const result = await User.findById(decryptedJwt._id);
@@ -80,6 +83,7 @@ const isAuthenticateUser = catchAsyncError(async (req, res, next) => {
 
   if (accessToken && !isTokenExpired(accessToken)) {
     const { SECRET = "" } = config.ACCESS_TOKEN;
+
     const payload = jwt.verify(accessToken, SECRET);
     if (!payload) {
       return sendResponse(res, {

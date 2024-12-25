@@ -11,7 +11,8 @@ import handleValidationError from "../error/validationError";
 import { IErrorSources } from "../interface/error.interface";
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  console.log(err.statusCode);
+  console.log(err);
+
   //setting default values
   let statusCode = 500;
   let message = "Something went wrong!";
