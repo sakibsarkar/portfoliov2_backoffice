@@ -62,6 +62,10 @@ const CreateProject = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.tech_stack.length === 0) {
+      toast.error("Please add at least one tech stack");
+      return;
+    }
     try {
       const res = await updateProjectById(formData);
 
@@ -86,6 +90,7 @@ const CreateProject = () => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (isImageUploading) return;
+
     try {
       const form = new FormData();
       form.append("image", file);

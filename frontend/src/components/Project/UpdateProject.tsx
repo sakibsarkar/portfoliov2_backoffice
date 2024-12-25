@@ -55,6 +55,10 @@ const UpdateProject: React.FC<IProps> = ({ project }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.tech_stack.length === 0) {
+      toast.error("Please add at least one tech stack");
+      return;
+    }
     try {
       const res = await updateProjectById({
         projectId: project._id,

@@ -1,7 +1,7 @@
 import { api } from "@/redux/api/api";
 import { IProject } from "@/types/project";
 
-const userApi = api.injectEndpoints({
+const projectApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getAlllProjects: builder.query<{ data: IProject[] }, undefined>({
       query: () => ({
@@ -43,4 +43,4 @@ export const {
   useUpdateProjectByIdMutation,
   useDelteProjectByIdMutation,
   useCreateProjectMutation,
-} = userApi;
+} = projectApi;

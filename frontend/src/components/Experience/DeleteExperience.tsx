@@ -10,36 +10,40 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useDelteProjectByIdMutation } from "@/redux/features/project/project.api";
+import { useDelteExperienceByIdMutation } from "@/redux/features/expereince/expereince.api";
 import { AlertCircle, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { toast } from "sonner";
 
 interface IProps {
-  projectName: string;
-  projectId: string;
+  experienceTitle: string;
+  experienceId: string;
 }
-const DeleteProject: React.FC<IProps> = ({ projectName, projectId }) => {
+const DeleteExperience: React.FC<IProps> = ({
+  experienceTitle,
+  experienceId,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [confirmationText, setConfirmationText] = useState("");
   const [error, setError] = useState("");
 
-  const [deleteProjectById, { isLoading }] = useDelteProjectByIdMutation();
+  const [deleteExperienceById, { isLoading }] =
+    useDelteExperienceByIdMutation();
 
   const handleConfirmDelete = async () => {
-    if (confirmationText !== projectName) {
-      setError("Project name doesn't match. Please try again.");
+    if (confirmationText !== experienceTitle) {
+      setError("Experience title doesn't match. Please try again.");
       return;
     }
 
     if (isLoading) return;
     try {
-      const res = await deleteProjectById(projectId);
+      const res = await deleteExperienceById(experienceId);
       const error = res.error as any;
       if (error) {
         toast.error(
-          error.data.message || "Something went wrong while deleting project"
+          error.data.message || "Something went wrong while deleting experience"
         );
         setIsOpen(false);
         setConfirmationText("");
@@ -47,12 +51,12 @@ const DeleteProject: React.FC<IProps> = ({ projectName, projectId }) => {
         return;
       }
 
-      toast.success("Project deleted successfully");
+      toast.success("Experience deleted successfully");
       setIsOpen(false);
       setConfirmationText("");
       setError("");
     } catch (error) {
-      toast.error("Something went wrong while deleting project");
+      toast.error("Something went wrong while deleting experience");
     }
   };
   return (
@@ -69,12 +73,12 @@ const DeleteProject: React.FC<IProps> = ({ projectName, projectId }) => {
         <DialogHeader>
           <DialogTitle className="font-bold text-destructive flex items-center">
             <Trash2 className="mr-2 h-6 w-6" />
-            Delete Project
+            Delete Experience
           </DialogTitle>
           <DialogDescription className="text-base">
             This action cannot be undone. This will permanently delete the
             project
-            <span className="font-semibold"> "{projectName}" </span>
+            <span className="font-semibold"> "{experienceTitle}" </span>
             and remove all of its contents from our servers.
           </DialogDescription>
         </DialogHeader>
@@ -83,7 +87,7 @@ const DeleteProject: React.FC<IProps> = ({ projectName, projectId }) => {
             <Label htmlFor="projectName" className="text-sm font-medium">
               To confirm type{" "}
               <span className="bg-destructive/10 text-destructive font-[700] px-[4px] rounded-[2px]">
-                {projectName}
+                {experienceTitle}
               </span>{" "}
               in the field below
             </Label>
@@ -94,7 +98,7 @@ const DeleteProject: React.FC<IProps> = ({ projectName, projectId }) => {
                 setConfirmationText(e.target.value);
                 setError("");
               }}
-              placeholder={projectName}
+              placeholder={experienceTitle}
               className="border-destructive/50 focus:border-destructive"
             />
           </div>
@@ -112,7 +116,7 @@ const DeleteProject: React.FC<IProps> = ({ projectName, projectId }) => {
           <Button
             variant="destructive"
             onClick={handleConfirmDelete}
-            disabled={confirmationText !== projectName || isLoading}
+            disabled={confirmationText !== experienceTitle || isLoading}
             className="flex items-center gap-2"
           >
             {isLoading ? (
@@ -121,7 +125,7 @@ const DeleteProject: React.FC<IProps> = ({ projectName, projectId }) => {
                 <FaSpinner className="animate-spin" />
               </>
             ) : (
-              "I understand, delete this project"
+              "I understand, delete this"
             )}
           </Button>
         </DialogFooter>
@@ -130,4 +134,4 @@ const DeleteProject: React.FC<IProps> = ({ projectName, projectId }) => {
   );
 };
 
-export default DeleteProject;
+export default DeleteExperience;

@@ -78,7 +78,7 @@ export default function Sidebar({
       }}
       className={cn(
         `md:relative fixed top-0 left-0  h-screen border-r bg-card transition-[width] duration-500 md:block
-        w-72 shrink-0 overflow-hidden z-[9999] sidebar flex flex-col gap-[20px] justify-between pb-[20px]`,
+        w-72 shrink-0 overflow-hidden z-[40] sidebar flex flex-col gap-[20px] justify-between pb-[20px]`,
         className
       )}
     >
