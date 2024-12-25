@@ -2,11 +2,12 @@ import { CreateSkill } from "@/components/Skill/CreateSkill";
 import DeleteSkill from "@/components/Skill/DeleteSkill";
 import { UpdateSkill } from "@/components/Skill/UpdateSkill";
 import DashboardHeading from "@/components/UIelements/DashboardHeading";
+import FethingOverlay from "@/pages/shared/FethingOverlay";
 import { useGetAllSkillsQuery } from "@/redux/features/skill/skill.api";
 import { getExpertise } from "@/utils/getExpertise";
 
 const SkillView = () => {
-  const { data } = useGetAllSkillsQuery(undefined);
+  const { data, isFetching, isLoading } = useGetAllSkillsQuery(undefined);
 
   return (
     <div className="flex flex-col gap-[25px]">
@@ -16,7 +17,7 @@ const SkillView = () => {
       />
 
       <CreateSkill />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-[15px] center mx-auto w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-[15px] center mx-auto w-full relative">
         {data?.data?.map((skill, i) => {
           const expertise = getExpertise(skill.expertise);
           return (
@@ -51,6 +52,8 @@ const SkillView = () => {
             </div>
           );
         })}
+
+        {isLoading && !isFetching && <FethingOverlay />}
       </div>
     </div>
   );

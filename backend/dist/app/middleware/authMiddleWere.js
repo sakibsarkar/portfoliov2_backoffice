@@ -53,7 +53,9 @@ const isAuthenticateUser = (0, catchAsyncError_1.default)((req, res, next) => __
         if (!refreshToken) {
             throw new AppError_1.default(404, "Refresh token is missing");
         }
-        const decryptedJwt = jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+        console.log("refresh token", refreshToken);
+        console.log("secret", config_1.config.REFRESH_TOKEN.SECRET);
+        const decryptedJwt = jsonwebtoken_1.default.verify(refreshToken, config_1.config.REFRESH_TOKEN.SECRET);
         const result = yield user_model_1.default.findById(decryptedJwt._id);
         if (!result) {
             return (0, sendResponse_1.default)(res, {

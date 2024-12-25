@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const blog_route_1 = __importDefault(require("./blog.route"));
 const experience_route_1 = __importDefault(require("./experience.route"));
+const image_route_1 = __importDefault(require("./image.route"));
 const project_route_1 = __importDefault(require("./project.route"));
 const skill_route_1 = __importDefault(require("./skill.route"));
 const user_route_1 = __importDefault(require("./user.route"));
@@ -30,6 +31,10 @@ const moduleRoutes = [
     {
         path: "/experience",
         route: experience_route_1.default,
+    },
+    {
+        path: "/upload",
+        route: image_route_1.default,
     },
 ];
 moduleRoutes.forEach((route) => {

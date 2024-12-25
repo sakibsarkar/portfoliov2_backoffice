@@ -28,9 +28,9 @@ const generateAccessToken = (payload) => {
     return accessToken;
 };
 const generateRefreshToken = (payload) => {
-    const refreshToken = jsonwebtoken_1.default.sign(payload, config_1.config.ACCESS_TOKEN.SECRET, {
+    const refreshToken = jsonwebtoken_1.default.sign(payload, config_1.config.REFRESH_TOKEN.SECRET, {
         // expiresIn: "30d",
-        expiresIn: config_1.config.ACCESS_TOKEN.EXPIRES_IN,
+        expiresIn: config_1.config.REFRESH_TOKEN.EXPIRES_IN,
     });
     return refreshToken;
 };

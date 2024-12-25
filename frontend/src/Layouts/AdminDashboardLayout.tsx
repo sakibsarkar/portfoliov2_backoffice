@@ -12,7 +12,7 @@ const AdminDashboardLayout = () => {
 
   return (
     <ThemeProvider defaultTheme="light">
-      <div className="w-full h-screen flex items-start justify-start pb-[30px]">
+      <div className="w-full h-screen flex items-start justify-start">
         <Sidebar isOpen={isOpen} setIsopen={setIsOpen} />
         <div
           className={`${
@@ -20,7 +20,7 @@ const AdminDashboardLayout = () => {
           } h-full flex-col flex`}
         >
           <DashboardHeader isOpen={isOpen} setIsOpen={setIsOpen} />
-          <div className="h-full overflow-auto smoothBar p-[20px] md:p-[25px] lg:p-[50px] dashRoot">
+          <div className="h-[calc(100%-76.5px)] overflow-auto smoothBar p-[20px] md:p-[25px] lg:p-[50px] dashRoot">
             <Outlet />
           </div>
         </div>

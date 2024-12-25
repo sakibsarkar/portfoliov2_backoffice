@@ -1,6 +1,6 @@
 import { IconType } from "react-icons";
 import { BsBriefcase } from "react-icons/bs";
-import { GrServices } from "react-icons/gr";
+import { GrNotes, GrServices } from "react-icons/gr";
 import { LuBrainCircuit } from "react-icons/lu";
 import { PiProjectorScreenChartThin } from "react-icons/pi";
 export interface NavItem {
@@ -28,5 +28,10 @@ export const adminLinks: NavItem[] = [
     href: "/dashboard/skill",
     Icon: LuBrainCircuit,
     title: "Manage Skill set",
+  },
+  {
+    href: "/dashboard/blog",
+    Icon: GrNotes,
+    title: "Manage Blogs",
   },
 ];

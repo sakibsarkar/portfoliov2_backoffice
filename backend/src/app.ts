@@ -14,7 +14,10 @@ app.use(cookieParser());
 app.use(
   cors({
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
-    origin: [config.BASE_SITE!, "http://localhost:5173"],
+    origin: [
+      config.BASE_SITE!,
+      "https://portfolio-backoffice-frontend.vercel.app",
+    ],
     credentials: true,
   })
 );

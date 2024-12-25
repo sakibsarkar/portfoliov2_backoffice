@@ -11,7 +11,7 @@ const duplicateError_1 = __importDefault(require("../error/duplicateError"));
 const handleZodError_1 = __importDefault(require("../error/handleZodError"));
 const validationError_1 = __importDefault(require("../error/validationError"));
 const globalErrorHandler = (err, req, res, next) => {
-    console.log(err.statusCode);
+    console.log(err);
     //setting default values
     let statusCode = 500;
     let message = "Something went wrong!";

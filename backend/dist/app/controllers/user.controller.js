@@ -126,8 +126,7 @@ const login = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, voi
         email: user.email,
         role: user.role,
     });
-    // const refreshToken = generateRefreshToken(user.id.toString());
-    // console.log("refresh token", refreshToken);
+    const refreshToken = generateRefreshToken({ _id: user._id.toString() });
     res
         .cookie("accessToken", accessToken, {
         sameSite: "none",
@@ -147,7 +146,10 @@ const login = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, voi
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,
-        data: rest,
+        data: {
+            accessToken,
+            user: rest,
+        },
         message: "User logged in successfully",
     });
 }));
