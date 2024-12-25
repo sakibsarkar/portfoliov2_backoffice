@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { useLoginUserMutation } from "@/redux/features/auth/auth.api";
 import { setToken, setUser } from "@/redux/features/auth/auth.slice";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import Cookies from "js-cookie";
 import { LogIn } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -60,7 +59,6 @@ const Login = () => {
       };
 
       dispatch(setUser(authData));
-      Cookies.set("refreshToken", data?.data?.refreshToken, { expires: 30 });
       dispatch(setToken(data?.data?.accessToken || ""));
 
       toast.success("Successfully logged in", {

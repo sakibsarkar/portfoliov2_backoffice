@@ -34,6 +34,7 @@ const user_utils_1 = require("../../utils/user.utils");
 const config_1 = require("../config");
 const AppError_1 = __importDefault(require("../error/AppError"));
 const user_model_1 = __importDefault(require("../models/user.model"));
+const { generateAccessToken, generateRefreshToken, hashPassword } = user_utils_1.userUtils;
 const register = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     const { firstName, lastName, email, password, role } = body;
@@ -46,7 +47,7 @@ const register = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, 
     if (user) {
         throw new AppError_1.default(400, "User already exist");
     }
-    const hashedPassword = yield (0, user_utils_1.hashPassword)(password);
+    const hashedPassword = yield hashPassword(password);
     const data = {
         firstName,
         lastName,
@@ -55,12 +56,12 @@ const register = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, 
         role: role || "player",
     };
     const result = yield user_model_1.default.create(data);
-    const accessToken = (0, user_utils_1.generateAccessToken)({
+    const accessToken = generateAccessToken({
         _id: result.id,
         email: result.email,
         role: role || "player",
     });
-    const refreshToken = (0, user_utils_1.generateRefreshToken)({ _id: result.id.toString() });
+    const refreshToken = generateRefreshToken({ _id: result.id.toString() });
     res
         .cookie("accessToken", accessToken, {
         sameSite: "none",
@@ -93,7 +94,7 @@ const createUser = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0
     if (user) {
         throw new AppError_1.default(400, "User already exist");
     }
-    const hashedPassword = yield (0, user_utils_1.hashPassword)(password);
+    const hashedPassword = yield hashPassword(password);
     const data = {
         firstName,
         email,
@@ -120,7 +121,7 @@ const login = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, voi
     if (!isMatch) {
         throw new AppError_1.default(403, "Unauthorized. Password is incorrect");
     }
-    const accessToken = (0, user_utils_1.generateAccessToken)({
+    const accessToken = generateAccessToken({
         _id: user.id,
         email: user.email,
         role: user.role,
@@ -247,7 +248,7 @@ const refreshToken = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (!user) {
             throw new AppError_1.default(404, "User not found");
         }
-        const accessToken = (0, user_utils_1.generateAccessToken)({
+        const accessToken = generateAccessToken({
             _id: user.id,
             email: user.email,
             role: user.role,
@@ -342,7 +343,7 @@ const resetPassword = (0, catchAsyncError_1.default)((req, res) => __awaiter(voi
     if (currentTimestamp > storedExpiry) {
         throw new AppError_1.default(400, "Link expired");
     }
-    const hashedPassword = yield (0, user_utils_1.hashPassword)(newPassword);
+    const hashedPassword = yield hashPassword(newPassword);
     yield user_model_1.default.findByIdAndUpdate(user.id, {
         password: hashedPassword,
         passwordResetToken: null,
@@ -381,7 +382,7 @@ const changePassword = (0, catchAsyncError_1.default)((req, res) => __awaiter(vo
     if (newPassword === oldPassword) {
         throw new AppError_1.default(400, "New password cannot be the same as the old password");
     }
-    const hashedPassword = yield (0, user_utils_1.hashPassword)(newPassword);
+    const hashedPassword = yield hashPassword(newPassword);
     yield user_model_1.default.findByIdAndUpdate(userAuth._id, {
         password: hashedPassword,
     });

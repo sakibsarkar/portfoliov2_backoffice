@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "../app/config";
 import { IUser } from "../app/interface/user.interface";
+import User from "../app/models/user.model";
 
 const hashPassword = async (password: string) => {
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -35,9 +36,26 @@ const isTokenExpired = (token: string) => {
   return decodedToken.exp < currentTime;
 };
 
+const adminSeed = async () => {
+  const admin = await User.findOne({ role: "admin" });
+  if (admin) {
+    return;
+  }
+  const data = {
+    firstName: "Admin",
+    lastName: "Admin",
+    email: "4cM9I@example.com",
+    role: "admin",
+  };
+  const password = await hashPassword(config.ADMIN_PASSWORD!);
+  const result = await User.create({ ...data, password });
+  return result;
+};
+
 export default isTokenExpired;
 
-export {
+export const userUtils = {
+  adminSeed,
   generateAccessToken,
   generateRefreshToken,
   hashPassword,

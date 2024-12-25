@@ -3,14 +3,13 @@ import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 import catchAsyncError from "../../utils/catchAsyncError";
 import sendResponse from "../../utils/sendResponse";
-import isTokenExpired, {
-  generateAccessToken,
-  generateRefreshToken,
-} from "../../utils/user.utils";
+import isTokenExpired, { userUtils } from "../../utils/user.utils";
 import { config } from "../config";
 import AppError from "../error/AppError";
 import { TUserRole } from "../interface/user.interface";
 import User from "../models/user.model";
+
+const { generateAccessToken, generateRefreshToken } = userUtils;
 
 const isAuthenticateUser = catchAsyncError(async (req, res, next) => {
   const accessToken = req.cookies.accessToken;

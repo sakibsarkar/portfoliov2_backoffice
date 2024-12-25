@@ -12,22 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isTokenExpired = exports.hashPassword = exports.generateRefreshToken = exports.generateAccessToken = void 0;
+exports.userUtils = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = require("../app/config");
+const user_model_1 = __importDefault(require("../app/models/user.model"));
 const hashPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
     const hashedPassword = yield bcrypt_1.default.hash(password, 10);
     return hashedPassword;
 });
-exports.hashPassword = hashPassword;
 const generateAccessToken = (payload) => {
     const accessToken = jsonwebtoken_1.default.sign(payload, config_1.config.ACCESS_TOKEN.SECRET, {
         expiresIn: config_1.config.ACCESS_TOKEN.EXPIRES_IN,
     });
     return accessToken;
 };
-exports.generateAccessToken = generateAccessToken;
 const generateRefreshToken = (payload) => {
     const refreshToken = jsonwebtoken_1.default.sign(payload, config_1.config.ACCESS_TOKEN.SECRET, {
         // expiresIn: "30d",
@@ -35,7 +34,6 @@ const generateRefreshToken = (payload) => {
     });
     return refreshToken;
 };
-exports.generateRefreshToken = generateRefreshToken;
 const isTokenExpired = (token) => {
     if (!token) {
         return true;
@@ -45,5 +43,26 @@ const isTokenExpired = (token) => {
     const currentTime = Date.now() / 1000;
     return decodedToken.exp < currentTime;
 };
-exports.isTokenExpired = isTokenExpired;
+const adminSeed = () => __awaiter(void 0, void 0, void 0, function* () {
+    const admin = yield user_model_1.default.findOne({ role: "admin" });
+    if (admin) {
+        return;
+    }
+    const data = {
+        firstName: "Admin",
+        lastName: "Admin",
+        email: "4cM9I@example.com",
+        role: "admin",
+    };
+    const password = yield hashPassword(config_1.config.ADMIN_PASSWORD);
+    const result = yield user_model_1.default.create(Object.assign(Object.assign({}, data), { password }));
+    return result;
+});
 exports.default = isTokenExpired;
+exports.userUtils = {
+    adminSeed,
+    generateAccessToken,
+    generateRefreshToken,
+    hashPassword,
+    isTokenExpired,
+};

@@ -10,6 +10,7 @@ const {
   CN_CLOUD_NAME,
   CN_API_KEY,
   CN_SECRET,
+  ADMIN_PASSWORD,
 } = process.env;
 
 export const config = {
@@ -26,6 +27,7 @@ export const config = {
     // EXPIRES_IN: 60 * 60 * 24 * 30, // 30d
     EXPIRES_IN: "30d",
   },
+  ADMIN_PASSWORD: ADMIN_PASSWORD,
   cloudinary: {
     cloud_name: CN_CLOUD_NAME,
     api_key: CN_API_KEY,

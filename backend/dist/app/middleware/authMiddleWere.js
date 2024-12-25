@@ -42,6 +42,7 @@ const user_utils_1 = __importStar(require("../../utils/user.utils"));
 const config_1 = require("../config");
 const AppError_1 = __importDefault(require("../error/AppError"));
 const user_model_1 = __importDefault(require("../models/user.model"));
+const { generateAccessToken, generateRefreshToken } = user_utils_1.userUtils;
 const isAuthenticateUser = (0, catchAsyncError_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = req.cookies.accessToken;
     if (!accessToken) {
@@ -62,12 +63,12 @@ const isAuthenticateUser = (0, catchAsyncError_1.default)((req, res, next) => __
                 message: "Unauthorized",
             });
         }
-        const newAccessToken = (0, user_utils_1.generateAccessToken)({
+        const newAccessToken = generateAccessToken({
             _id: result === null || result === void 0 ? void 0 : result._id.toString(),
             email: result === null || result === void 0 ? void 0 : result.email,
             role: result === null || result === void 0 ? void 0 : result.role,
         });
-        const newRefreshToken = (0, user_utils_1.generateRefreshToken)({
+        const newRefreshToken = generateRefreshToken({
             _id: result === null || result === void 0 ? void 0 : result._id.toString(),
         });
         res

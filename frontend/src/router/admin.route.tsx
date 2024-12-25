@@ -1,9 +1,15 @@
-import Test from "@/pages/dashboard/Test";
+import DashboarRoot from "@/pages/dashboard/DashboarRoot";
+import Projects from "@/pages/dashboard/Projects";
 
 export const adminRoutes = [
   {
     index: true,
-    path: "test",
-    element: <Test />,
+    path: "",
+    element: <DashboarRoot />,
+  },
+  {
+    index: true,
+    path: "projects",
+    element: <Projects />,
   },
 ];

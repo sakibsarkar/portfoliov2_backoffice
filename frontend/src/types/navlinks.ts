@@ -14,10 +14,9 @@ export const adminLinks: NavItem[] = [
     title: "Dashboard",
   },
 
-
   {
-    href: "/dashboard/vendors",
+    href: "/dashboard/projects",
     Icon: FaBoxes,
-    title: "vendors",
+    title: "Manage Projects",
   },
 ];

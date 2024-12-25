@@ -7,16 +7,13 @@ import { v4 } from "uuid";
 import catchAsyncError from "../../utils/catchAsyncError";
 import sendMessage from "../../utils/sendMessage";
 import sendResponse from "../../utils/sendResponse";
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  hashPassword,
-} from "../../utils/user.utils";
+
+import { userUtils } from "../../utils/user.utils";
 import { config } from "../config";
 import AppError from "../error/AppError";
 import { IUser } from "../interface/user.interface";
 import User from "../models/user.model";
-
+const { generateAccessToken, generateRefreshToken, hashPassword } = userUtils;
 const register = catchAsyncError(async (req, res) => {
   const body = req.body as IUser;
   const { firstName, lastName, email, password, role } = body;
@@ -151,7 +148,10 @@ const login = catchAsyncError(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: 200,
-    data: rest,
+    data: {
+      accessToken,
+      user: rest,
+    },
     message: "User logged in successfully",
   });
 });
